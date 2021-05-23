@@ -2,3 +2,4 @@
 .gradle/
 *iml
 HELP.md
+build/
