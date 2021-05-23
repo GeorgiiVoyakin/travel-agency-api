@@ -1,4 +1,4 @@
-package ru.mirea.ikbo1319.travelagencyapi;
+package ru.mirea.ikbo1319;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
