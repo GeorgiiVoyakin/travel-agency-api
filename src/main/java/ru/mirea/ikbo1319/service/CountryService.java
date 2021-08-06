@@ -1,6 +1,7 @@
 package ru.mirea.ikbo1319.service;
 
 import org.springframework.stereotype.Service;
+import ru.mirea.ikbo1319.exception.CountryNotFoundException;
 import ru.mirea.ikbo1319.model.Country;
 import ru.mirea.ikbo1319.repository.CountryRepository;
 
@@ -16,5 +17,10 @@ public class CountryService {
 
     public List<Country> findAll() {
         return countryRepository.findAll();
+    }
+
+    public Country findById(Long id) {
+        return countryRepository.findById(id)
+                .orElseThrow(() -> new CountryNotFoundException(id));
     }
 }
