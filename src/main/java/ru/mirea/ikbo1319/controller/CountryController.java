@@ -2,9 +2,8 @@ package ru.mirea.ikbo1319.controller;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import ru.mirea.ikbo1319.config.CountryModelAssembler;
 import ru.mirea.ikbo1319.model.Country;
 import ru.mirea.ikbo1319.service.CountryService;
@@ -39,5 +38,13 @@ public class CountryController {
     @GetMapping("/countries/{id}")
     public EntityModel<Country> getById(@PathVariable Long id) {
         return countryModelAssembler.toModel(countryService.findById(id));
+    }
+
+    @PostMapping("/countries")
+    public ResponseEntity<?> addNewCountry(@RequestBody Country newCountry) {
+        countryService.save(newCountry);
+        return ResponseEntity
+                .created(linkTo(methodOn(CountryController.class).getById(newCountry.getId())).toUri())
+                .body(null);
     }
 }
