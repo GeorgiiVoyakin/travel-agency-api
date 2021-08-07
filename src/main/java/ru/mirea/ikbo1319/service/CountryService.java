@@ -23,4 +23,8 @@ public class CountryService {
         return countryRepository.findById(id)
                 .orElseThrow(() -> new CountryNotFoundException(id));
     }
+
+    public void save(Country newCountry) {
+        countryRepository.save(newCountry);
+    }
 }
