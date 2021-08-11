@@ -47,4 +47,9 @@ public class TourController {
                 .created(linkTo(methodOn(TourController.class).getById(newTour.getId())).toUri())
                 .body(null);
     }
+
+    @GetMapping("/tours/find/{country_id}")
+    public List<Tour> find(@PathVariable Long country_id) {
+        return tourService.find(country_id);
+    }
 }
