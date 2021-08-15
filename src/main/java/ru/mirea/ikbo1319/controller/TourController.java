@@ -49,7 +49,7 @@ public class TourController {
     }
 
     @GetMapping("/tours/find/{country_id}")
-    public List<Tour> find(@PathVariable Long country_id) {
-        return tourService.find(country_id);
+    public List<Tour> find(@PathVariable("country_id") Long countryId) {
+        return tourService.find(countryId);
     }
 }
