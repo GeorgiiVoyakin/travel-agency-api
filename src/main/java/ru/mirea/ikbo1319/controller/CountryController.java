@@ -41,7 +41,9 @@ public class CountryController {
     }
 
     @PostMapping("/countries")
-    public ResponseEntity<?> addNewCountry(@RequestBody Country newCountry) {
+    public ResponseEntity<?> addNewCountry(@RequestParam String name) {
+        Country newCountry = Country.builder().name(name).build();
+
         countryService.save(newCountry);
         return ResponseEntity
                 .created(linkTo(methodOn(CountryController.class).getById(newCountry.getId())).toUri())

@@ -5,6 +5,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mirea.ikbo1319.config.TourModelAssembler;
+import ru.mirea.ikbo1319.model.Country;
 import ru.mirea.ikbo1319.model.Tour;
 import ru.mirea.ikbo1319.service.TourService;
 
@@ -41,7 +42,13 @@ public class TourController {
     }
 
     @PostMapping("/tours")
-    public ResponseEntity<?> addNewTour(@RequestBody Tour newTour) {
+    public ResponseEntity<?> addNewTour(@RequestParam String name, @RequestParam String description) {
+        Tour newTour = Tour
+                .builder()
+                .name(name)
+                .description(description)
+                .build();
+
         tourService.save(newTour);
         return ResponseEntity
                 .created(linkTo(methodOn(TourController.class).getById(newTour.getId())).toUri())

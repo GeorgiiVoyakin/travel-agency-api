@@ -41,7 +41,9 @@ public class CityController {
     }
 
     @PostMapping("/cities")
-    public ResponseEntity<?> addNewCity(@RequestBody City newCity) {
+    public ResponseEntity<?> addNewCity(@RequestParam String name) {
+        City newCity = City.builder().name(name).build();
+
         cityService.save(newCity);
         return ResponseEntity
                 .created(linkTo(methodOn(CityController.class).getById(newCity.getId())).toUri())
