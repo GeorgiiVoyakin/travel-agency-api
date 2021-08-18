@@ -5,6 +5,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mirea.ikbo1319.config.CityModelAssembler;
+import ru.mirea.ikbo1319.exception.CityNotFoundException;
 import ru.mirea.ikbo1319.model.City;
 import ru.mirea.ikbo1319.service.CityService;
 
@@ -37,7 +38,10 @@ public class CityController {
 
     @GetMapping("/cities/{id}")
     public EntityModel<City> getById(@PathVariable Long id) {
-        return cityModelAssembler.toModel(cityService.findById(id));
+        return cityModelAssembler
+                .toModel(cityService
+                        .findById(id)
+                        .orElseThrow(() -> new CityNotFoundException(id)));
     }
 
     @PostMapping("/cities")

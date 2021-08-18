@@ -6,6 +6,7 @@ import ru.mirea.ikbo1319.model.Country;
 import ru.mirea.ikbo1319.repository.CountryRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CountryService {
@@ -19,9 +20,8 @@ public class CountryService {
         return countryRepository.findAll();
     }
 
-    public Country findById(Long id) {
-        return countryRepository.findById(id)
-                .orElseThrow(() -> new CountryNotFoundException(id));
+    public Optional<Country> findById(Long id) {
+        return countryRepository.findById(id);
     }
 
     public void save(Country newCountry) {

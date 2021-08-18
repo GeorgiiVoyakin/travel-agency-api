@@ -5,7 +5,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mirea.ikbo1319.config.TourModelAssembler;
-import ru.mirea.ikbo1319.model.Country;
+import ru.mirea.ikbo1319.exception.TourNotFoundException;
 import ru.mirea.ikbo1319.model.Tour;
 import ru.mirea.ikbo1319.service.TourService;
 
@@ -38,7 +38,10 @@ public class TourController {
 
     @GetMapping("/tours/{id}")
     public EntityModel<Tour> getById(@PathVariable Long id) {
-        return tourModelAssembler.toModel(tourService.findById(id));
+        return tourModelAssembler
+                .toModel(tourService
+                        .findById(id)
+                        .orElseThrow(() -> new TourNotFoundException(id)));
     }
 
     @PostMapping("/tours")

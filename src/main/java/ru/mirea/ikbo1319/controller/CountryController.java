@@ -5,6 +5,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mirea.ikbo1319.config.CountryModelAssembler;
+import ru.mirea.ikbo1319.exception.CountryNotFoundException;
 import ru.mirea.ikbo1319.model.Country;
 import ru.mirea.ikbo1319.service.CountryService;
 
@@ -37,7 +38,10 @@ public class CountryController {
 
     @GetMapping("/countries/{id}")
     public EntityModel<Country> getById(@PathVariable Long id) {
-        return countryModelAssembler.toModel(countryService.findById(id));
+        return countryModelAssembler
+                .toModel(countryService
+                        .findById(id)
+                        .orElseThrow(() -> new CountryNotFoundException(id)));
     }
 
     @PostMapping("/countries")
