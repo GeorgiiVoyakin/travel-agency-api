@@ -1,7 +1,6 @@
 package ru.mirea.ikbo1319.service;
 
 import org.springframework.stereotype.Service;
-import ru.mirea.ikbo1319.exception.CountryNotFoundException;
 import ru.mirea.ikbo1319.model.Country;
 import ru.mirea.ikbo1319.repository.CountryRepository;
 
@@ -26,5 +25,9 @@ public class CountryService {
 
     public void save(Country newCountry) {
         countryRepository.save(newCountry);
+    }
+
+    public void deleteById(Long id) {
+        countryRepository.deleteById(id);
     }
 }

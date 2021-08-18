@@ -36,4 +36,8 @@ public class TourService {
                 .filter(tour -> Objects.equals(tour.getCountry().getId(), country_id))
                 .collect(Collectors.toList());
     }
+
+    public void deleteById(Long id) {
+        tourRepository.deleteById(id);
+    }
 }
