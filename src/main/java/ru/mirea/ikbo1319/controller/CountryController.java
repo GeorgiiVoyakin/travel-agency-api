@@ -53,4 +53,13 @@ public class CountryController {
                 .created(linkTo(methodOn(CountryController.class).getById(newCountry.getId())).toUri())
                 .body(null);
     }
+
+    @DeleteMapping("/countries/{id}")
+    public ResponseEntity<?> deleteCountry(@PathVariable Long id) {
+        countryService.findById(id)
+                .orElseThrow(() -> new CountryNotFoundException(id));
+
+        countryService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

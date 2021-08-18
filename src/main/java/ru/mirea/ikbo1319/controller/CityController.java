@@ -53,4 +53,14 @@ public class CityController {
                 .created(linkTo(methodOn(CityController.class).getById(newCity.getId())).toUri())
                 .body(null);
     }
+
+    @DeleteMapping("/cities/{id}")
+    public ResponseEntity<?> deleteCity(@PathVariable Long id) {
+        cityService.findById(id)
+                .orElseThrow(() -> new CityNotFoundException(id));
+
+        cityService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+

@@ -62,4 +62,13 @@ public class TourController {
     public List<Tour> find(@PathVariable("country_id") Long countryId) {
         return tourService.find(countryId);
     }
+
+    @DeleteMapping("/tours/{id}")
+    public ResponseEntity<?> deleteTour(@PathVariable Long id) {
+        tourService.findById(id)
+                .orElseThrow(() -> new TourNotFoundException(id));
+
+        tourService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
