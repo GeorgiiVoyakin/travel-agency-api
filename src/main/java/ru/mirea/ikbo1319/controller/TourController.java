@@ -1,5 +1,6 @@
 package ru.mirea.ikbo1319.controller;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import ru.mirea.ikbo1319.exception.TourNotFoundException;
 import ru.mirea.ikbo1319.model.Tour;
 import ru.mirea.ikbo1319.service.TourService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +63,15 @@ public class TourController {
     @GetMapping("/tours/find/{country_id}")
     public List<Tour> find(@PathVariable("country_id") Long countryId) {
         return tourService.find(countryId);
+    }
+
+    @GetMapping("/tours/find/")
+    public List<Tour> find(@RequestParam Long cityId, @RequestParam Long countryId, @RequestParam int days, @RequestParam int people) {
+        System.out.println(cityId);
+        System.out.println(countryId);
+        System.out.println(days);
+        System.out.println(people);
+        return tourService.findAll(); // replace with real finding
     }
 
     @DeleteMapping("/tours/{id}")
