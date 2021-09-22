@@ -15,7 +15,7 @@ public class Tour {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "country_id", referencedColumnName = "id")
+    @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
     private Country country;
 
     public Tour() {}
