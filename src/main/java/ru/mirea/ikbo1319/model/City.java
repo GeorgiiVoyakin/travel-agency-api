@@ -2,10 +2,9 @@ package ru.mirea.ikbo1319.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -15,6 +14,14 @@ import javax.persistence.Id;
 public class City {
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private String name;
+
+    @ManyToMany
+    @JoinTable(
+            name = "city_countries",
+            joinColumns = { @JoinColumn(name = "city_id") },
+            inverseJoinColumns = { @JoinColumn(name = "country_id") }
+    )
+    private Set<Country> countries = new HashSet<>();
 
     public City() {}
 }
