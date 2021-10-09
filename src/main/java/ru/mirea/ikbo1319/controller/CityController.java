@@ -1,5 +1,6 @@
 package ru.mirea.ikbo1319.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -8,22 +9,23 @@ import ru.mirea.ikbo1319.config.CityModelAssembler;
 import ru.mirea.ikbo1319.exception.CityNotFoundException;
 import ru.mirea.ikbo1319.model.City;
 import ru.mirea.ikbo1319.service.CityService;
+import ru.mirea.ikbo1319.service.CountryService;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@AllArgsConstructor
 public class CityController {
     private final CityService cityService;
+    private final CountryService countryService;
     private final CityModelAssembler cityModelAssembler;
-
-    public CityController(CityService cityService, CityModelAssembler cityModelAssembler) {
-        this.cityService = cityService;
-        this.cityModelAssembler = cityModelAssembler;
-    }
+    private final ControllersUtils controllersUtils;
 
     @GetMapping("/cities")
     public CollectionModel<EntityModel<City>> getAll() {
@@ -52,6 +54,22 @@ public class CityController {
         return ResponseEntity
                 .created(linkTo(methodOn(CityController.class).getById(newCity.getId())).toUri())
                 .body(null);
+    }
+
+    @PatchMapping("/cities/{id}")
+    public ResponseEntity<?> updateCity(
+            @PathVariable Long id,
+            @RequestParam Optional<String> name,
+            @RequestParam Optional<Long> countryId) {
+
+        City city = controllersUtils.getCityOrThrowNotFound(id);
+
+        countryId.ifPresent(aLong -> city.getCountries().add(controllersUtils.getCountryOrThrowNotFound(aLong)));
+
+        name.ifPresent(city::setName);
+        cityService.save(city);
+
+        return ResponseEntity.ok().body(city);
     }
 
     @DeleteMapping("/cities/{id}")
