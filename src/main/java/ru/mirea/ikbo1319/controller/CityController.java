@@ -6,7 +6,9 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mirea.ikbo1319.config.CityModelAssembler;
+import ru.mirea.ikbo1319.dto.CityDto;
 import ru.mirea.ikbo1319.exception.CityNotFoundException;
+import ru.mirea.ikbo1319.factory.CityDtoFactory;
 import ru.mirea.ikbo1319.model.City;
 import ru.mirea.ikbo1319.service.CityService;
 import ru.mirea.ikbo1319.service.CountryService;
@@ -25,22 +27,19 @@ public class CityController {
     private final CountryService countryService;
     private final CityModelAssembler cityModelAssembler;
     private final ControllersUtils controllersUtils;
+    private final CityDtoFactory cityDtoFactory;
 
     @GetMapping("/cities")
-    public CollectionModel<EntityModel<City>> getAll() {
-        List<EntityModel<City>> cities = cityService
-                .findAll()
-                .stream()
-                .map(cityModelAssembler::toModel)
-                .collect(Collectors.toList());
+    public List<CityDto> getAll() {
+        List<City> cities = cityService.findAll();
 
-        return CollectionModel.of(cities, linkTo(methodOn(CityController.class).getAll()).withSelfRel());
+        return cityDtoFactory.createListOfCityDto(cities);
     }
 
     @GetMapping("/cities/{id}")
-    public EntityModel<City> getById(@PathVariable Long id) {
-        return cityModelAssembler
-                .toModel(cityService
+    public CityDto getById(@PathVariable Long id) {
+        return cityDtoFactory
+                .createCityDto(cityService
                         .findById(id)
                         .orElseThrow(() -> new CityNotFoundException(id)));
     }
@@ -52,7 +51,7 @@ public class CityController {
         cityService.save(newCity);
         return ResponseEntity
                 .created(linkTo(methodOn(CityController.class).getById(newCity.getId())).toUri())
-                .body(null);
+                .body(cityDtoFactory.createCityDto(newCity));
     }
 
     @PatchMapping("/cities/{id}")
@@ -70,7 +69,7 @@ public class CityController {
         optionalName.ifPresent(city::setName);
         cityService.save(city);
 
-        return ResponseEntity.ok().body(city);
+        return ResponseEntity.ok().body(cityDtoFactory.createCityDto(city));
     }
 
     @DeleteMapping("/cities/{id}")
@@ -79,7 +78,7 @@ public class CityController {
                 .orElseThrow(() -> new CityNotFoundException(id));
 
         cityService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(null);
     }
 }
 
