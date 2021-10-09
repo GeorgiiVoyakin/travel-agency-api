@@ -1,5 +1,6 @@
 package ru.mirea.ikbo1319.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -10,20 +11,18 @@ import ru.mirea.ikbo1319.model.Country;
 import ru.mirea.ikbo1319.service.CountryService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@AllArgsConstructor
 public class CountryController {
     private final CountryService countryService;
     private final CountryModelAssembler countryModelAssembler;
-
-    public CountryController(CountryService countryService, CountryModelAssembler countryModelAssembler) {
-        this.countryService = countryService;
-        this.countryModelAssembler = countryModelAssembler;
-    }
+    private final ControllersUtils controllersUtils;
 
     @GetMapping("/countries")
     public CollectionModel<EntityModel<Country>> getAll() {
@@ -52,6 +51,24 @@ public class CountryController {
         return ResponseEntity
                 .created(linkTo(methodOn(CountryController.class).getById(newCountry.getId())).toUri())
                 .body(null);
+    }
+
+    @PatchMapping("/countries/{id}")
+    public ResponseEntity<?> updateCountry(
+            @PathVariable Long id,
+            @RequestParam Optional<String> optionalName,
+            @RequestParam Optional<Long> optionalCityId,
+            @RequestParam Optional<Long> optionalTourId) {
+
+        Country country = controllersUtils.getCountryOrThrowNotFound(id);
+
+        optionalCityId.ifPresent(cityId -> country.getCities().add(controllersUtils.getCityOrThrowNotFound(cityId)));
+        optionalTourId.ifPresent(tourId -> country.getTours().add(controllersUtils.getTourOrThrowNotFound(tourId)));
+
+        optionalName.ifPresent(country::setName);
+        countryService.save(country);
+
+        return ResponseEntity.ok().body(country);
     }
 
     @DeleteMapping("/countries/{id}")
