@@ -13,7 +13,6 @@ import ru.mirea.ikbo1319.service.CountryService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -59,14 +58,16 @@ public class CityController {
     @PatchMapping("/cities/{id}")
     public ResponseEntity<?> updateCity(
             @PathVariable Long id,
-            @RequestParam Optional<String> name,
-            @RequestParam Optional<Long> countryId) {
+            @RequestParam Optional<String> optionalName,
+            @RequestParam Optional<Long> optionalCountryId) {
 
         City city = controllersUtils.getCityOrThrowNotFound(id);
 
-        countryId.ifPresent(aLong -> city.getCountries().add(controllersUtils.getCountryOrThrowNotFound(aLong)));
+        optionalCountryId.ifPresent(
+                countryId -> city.getCountries().add(controllersUtils.getCountryOrThrowNotFound(countryId))
+        );
 
-        name.ifPresent(city::setName);
+        optionalName.ifPresent(city::setName);
         cityService.save(city);
 
         return ResponseEntity.ok().body(city);
