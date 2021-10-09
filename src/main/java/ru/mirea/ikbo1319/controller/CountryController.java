@@ -6,7 +6,9 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mirea.ikbo1319.config.CountryModelAssembler;
+import ru.mirea.ikbo1319.dto.CountryDto;
 import ru.mirea.ikbo1319.exception.CountryNotFoundException;
+import ru.mirea.ikbo1319.factory.CountryDtoFactory;
 import ru.mirea.ikbo1319.model.Country;
 import ru.mirea.ikbo1319.service.CountryService;
 
@@ -23,22 +25,19 @@ public class CountryController {
     private final CountryService countryService;
     private final CountryModelAssembler countryModelAssembler;
     private final ControllersUtils controllersUtils;
+    private final CountryDtoFactory countryDtoFactory;
 
     @GetMapping("/countries")
-    public CollectionModel<EntityModel<Country>> getAll() {
-        List<EntityModel<Country>> countries = countryService
-                .findAll()
-                .stream()
-                .map(countryModelAssembler::toModel)
-                .collect(Collectors.toList());
+    public List<CountryDto> getAll() {
+        List<Country> countries = countryService.findAll();
 
-        return CollectionModel.of(countries, linkTo(methodOn(CountryController.class).getAll()).withSelfRel());
+        return countryDtoFactory.createListOfCountryDto(countries);
     }
 
     @GetMapping("/countries/{id}")
-    public EntityModel<Country> getById(@PathVariable Long id) {
-        return countryModelAssembler
-                .toModel(countryService
+    public CountryDto getById(@PathVariable Long id) {
+        return countryDtoFactory
+                .createCountryDto(countryService
                         .findById(id)
                         .orElseThrow(() -> new CountryNotFoundException(id)));
     }
@@ -50,7 +49,7 @@ public class CountryController {
         countryService.save(newCountry);
         return ResponseEntity
                 .created(linkTo(methodOn(CountryController.class).getById(newCountry.getId())).toUri())
-                .body(null);
+                .body(countryDtoFactory.createCountryDto(newCountry));
     }
 
     @PatchMapping("/countries/{id}")
@@ -68,7 +67,7 @@ public class CountryController {
         optionalName.ifPresent(country::setName);
         countryService.save(country);
 
-        return ResponseEntity.ok().body(country);
+        return ResponseEntity.ok().body(countryDtoFactory.createCountryDto(country));
     }
 
     @DeleteMapping("/countries/{id}")
@@ -77,6 +76,6 @@ public class CountryController {
                 .orElseThrow(() -> new CountryNotFoundException(id));
 
         countryService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(null);
     }
 }
