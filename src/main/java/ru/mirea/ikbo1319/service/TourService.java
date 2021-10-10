@@ -5,9 +5,7 @@ import ru.mirea.ikbo1319.model.Tour;
 import ru.mirea.ikbo1319.repository.TourRepository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TourService {
@@ -27,14 +25,6 @@ public class TourService {
 
     public void save(Tour newTour) {
         tourRepository.save(newTour);
-    }
-
-    public List<Tour> find(Long country_id) {
-        return tourRepository
-                .findAll()
-                .stream()
-                .filter(tour -> Objects.equals(tour.getCountry().getId(), country_id))
-                .collect(Collectors.toList());
     }
 
     public void deleteById(Long id) {
