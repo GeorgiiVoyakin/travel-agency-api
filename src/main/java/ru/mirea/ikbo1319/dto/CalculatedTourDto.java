@@ -1,9 +1,11 @@
 package ru.mirea.ikbo1319.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import ru.mirea.ikbo1319.model.Beach;
 
 @Data
+@Builder
 public class CalculatedTourDto {
     private final String name;
     private final String description;
@@ -12,5 +14,5 @@ public class CalculatedTourDto {
     private final Boolean seaResort;
     private final Beach beach;
     private final Boolean wirelessInternet;
-    private Boolean meal;
+    private final Boolean meal;
 }
