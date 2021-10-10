@@ -1,0 +1,12 @@
+.idea/
+.gradle/
+*iml
+HELP.md
+build/
+gradle/
+.gitignore
+LICENSE
+docker-compose.yml
+gradlew
+*bat
+README.md
