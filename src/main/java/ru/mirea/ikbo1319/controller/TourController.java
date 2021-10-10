@@ -85,6 +85,6 @@ public class TourController {
                 .orElseThrow(() -> new TourNotFoundException(id));
 
         tourService.deleteById(id);
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().build();
     }
 }

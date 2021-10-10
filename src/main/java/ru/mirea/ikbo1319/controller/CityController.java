@@ -1,8 +1,6 @@
 package ru.mirea.ikbo1319.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mirea.ikbo1319.dto.CityDto;
@@ -14,7 +12,6 @@ import ru.mirea.ikbo1319.service.CountryService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -67,7 +64,7 @@ public class CityController {
         optionalName.ifPresent(city::setName);
         cityService.save(city);
 
-        return ResponseEntity.ok().body(cityDtoFactory.createCityDto(city));
+        return ResponseEntity.ok(cityDtoFactory.createCityDto(city));
     }
 
     @DeleteMapping("/cities/{id}")
@@ -76,7 +73,7 @@ public class CityController {
                 .orElseThrow(() -> new CityNotFoundException(id));
 
         cityService.deleteById(id);
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().build();
     }
 }
 
