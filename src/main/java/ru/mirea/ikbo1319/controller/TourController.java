@@ -3,7 +3,6 @@ package ru.mirea.ikbo1319.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.mirea.ikbo1319.config.TourModelAssembler;
 import ru.mirea.ikbo1319.dto.TourDto;
 import ru.mirea.ikbo1319.exception.TourNotFoundException;
 import ru.mirea.ikbo1319.factory.TourDtoFactory;
@@ -22,7 +21,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @AllArgsConstructor
 public class TourController {
     private final TourService tourService;
-    private final TourModelAssembler tourModelAssembler;
     private final TourDtoFactory tourDtoFactory;
     private final ControllersUtils controllersUtils;
 

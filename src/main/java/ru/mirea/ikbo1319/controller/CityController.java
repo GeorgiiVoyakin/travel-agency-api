@@ -5,7 +5,6 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.mirea.ikbo1319.config.CityModelAssembler;
 import ru.mirea.ikbo1319.dto.CityDto;
 import ru.mirea.ikbo1319.exception.CityNotFoundException;
 import ru.mirea.ikbo1319.factory.CityDtoFactory;
@@ -25,7 +24,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class CityController {
     private final CityService cityService;
     private final CountryService countryService;
-    private final CityModelAssembler cityModelAssembler;
     private final ControllersUtils controllersUtils;
     private final CityDtoFactory cityDtoFactory;
 

@@ -5,7 +5,6 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.mirea.ikbo1319.config.CountryModelAssembler;
 import ru.mirea.ikbo1319.dto.CountryDto;
 import ru.mirea.ikbo1319.exception.CountryNotFoundException;
 import ru.mirea.ikbo1319.factory.CountryDtoFactory;
@@ -23,7 +22,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @AllArgsConstructor
 public class CountryController {
     private final CountryService countryService;
-    private final CountryModelAssembler countryModelAssembler;
     private final ControllersUtils controllersUtils;
     private final CountryDtoFactory countryDtoFactory;
 
