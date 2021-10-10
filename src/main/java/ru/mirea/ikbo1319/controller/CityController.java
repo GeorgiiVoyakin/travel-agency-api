@@ -8,7 +8,6 @@ import ru.mirea.ikbo1319.exception.CityNotFoundException;
 import ru.mirea.ikbo1319.factory.CityDtoFactory;
 import ru.mirea.ikbo1319.model.City;
 import ru.mirea.ikbo1319.service.CityService;
-import ru.mirea.ikbo1319.service.CountryService;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +19,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @AllArgsConstructor
 public class CityController {
     private final CityService cityService;
-    private final CountryService countryService;
     private final ControllersUtils controllersUtils;
     private final CityDtoFactory cityDtoFactory;
 
