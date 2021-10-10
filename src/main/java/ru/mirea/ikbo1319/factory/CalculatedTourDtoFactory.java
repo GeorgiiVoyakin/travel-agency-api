@@ -2,7 +2,6 @@ package ru.mirea.ikbo1319.factory;
 
 import org.springframework.stereotype.Component;
 import ru.mirea.ikbo1319.dto.CalculatedTourDto;
-import ru.mirea.ikbo1319.dto.TourDto;
 import ru.mirea.ikbo1319.model.Tour;
 
 import java.util.List;
