@@ -1,19 +1,21 @@
 package ru.mirea.ikbo1319.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.mirea.ikbo1319.model.City;
 import ru.mirea.ikbo1319.model.Country;
+import ru.mirea.ikbo1319.repository.CityRepository;
 import ru.mirea.ikbo1319.repository.CountryRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
+@AllArgsConstructor
 public class CountryService {
     private final CountryRepository countryRepository;
-
-    public CountryService(CountryRepository countryRepository) {
-        this.countryRepository = countryRepository;
-    }
+    private final CityRepository cityRepository;
 
     public List<Country> findAll() {
         return countryRepository.findAll();
@@ -28,6 +30,11 @@ public class CountryService {
     }
 
     public void deleteById(Long id) {
+        Set<City> cities = countryRepository.getById(id).getCities();
+        cities.forEach(city -> {
+            city.getCountries().remove(countryRepository.getById(id));
+            cityRepository.save(city);
+        });
         countryRepository.deleteById(id);
     }
 }
