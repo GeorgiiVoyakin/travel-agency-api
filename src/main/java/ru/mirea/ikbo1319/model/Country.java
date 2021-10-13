@@ -23,7 +23,7 @@ public class Country {
     @ManyToMany(mappedBy = "countries")
     private Set<City> cities = new HashSet<>();
 
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
     private List<Tour> tours = new ArrayList<>();
 
     public Country() {}
