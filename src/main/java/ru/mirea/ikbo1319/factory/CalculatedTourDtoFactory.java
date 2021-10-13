@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class CalculatedTourDtoFactory {
     public CalculatedTourDto createCalculatedTourDto(Tour tour, int people, int days){
         return CalculatedTourDto.builder()
+                .id(tour.getId())
                 .name(tour.getName())
                 .description(tour.getDescription())
                 .calculatedPrice(tour.getPrice() * people * days)

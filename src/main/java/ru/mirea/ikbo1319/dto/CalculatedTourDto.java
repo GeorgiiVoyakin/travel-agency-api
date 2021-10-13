@@ -7,6 +7,7 @@ import ru.mirea.ikbo1319.model.Beach;
 @Data
 @Builder
 public class CalculatedTourDto {
+    private final Long id;
     private final String name;
     private final String description;
     private final Long calculatedPrice;

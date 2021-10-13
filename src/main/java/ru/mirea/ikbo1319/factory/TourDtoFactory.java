@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class TourDtoFactory {
     public TourDto createTourDto(Tour tour){
         return TourDto.builder()
+                .id(tour.getId())
                 .name(tour.getName())
                 .description(tour.getDescription())
                 .price(tour.getPrice())
