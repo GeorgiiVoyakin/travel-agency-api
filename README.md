@@ -27,7 +27,7 @@ GET /cities/{id}
 #### Response
 ```json
 {
-  "id" : "1",
+  "id" : 1,
   "name" : "Moscow"
 }
 ```
@@ -37,11 +37,12 @@ GET /cities/{id}
 POST /cities
 ```
 #### Request params
-| param     | type     | Description
-|name       | String   | City name
+| param     | type     | Description|
+|name       | String   | City name  |
 #### Response
 ```json
 {
-  
+  "id": 3,
+  "name": "Tomsk"
 }
 ```
