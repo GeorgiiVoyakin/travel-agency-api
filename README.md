@@ -38,6 +38,7 @@ POST /cities
 ```
 #### Request params
 | param     | type     | Description|
+| :======== | :======= | :========= |
 |name       | String   | City name  |
 #### Response
 ```json
