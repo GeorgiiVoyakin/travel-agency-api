@@ -3,7 +3,9 @@ REST API for travel agency
 
 # Run
 Using docker:
-`docker compose up`
+```
+docker compose up
+```
 
 # API endpoints
 
